@@ -19,6 +19,7 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([]);
 
   useEffect(() => {
 
@@ -42,8 +43,9 @@ function App() {
               value: country.countryInfo.iso2 // UK, US, FR
             }));
 
-            const sortedData = sortData(data);
+            let sortedData = sortData(data);
             setTableData(sortedData);
+            setMapCountries(data);
             setCountries(countries); 
 
           });
@@ -56,8 +58,11 @@ function App() {
       const countryDetail = event.target.value;
       setCountry(countryDetail);
 
-      const url = countryDetail === 'worldwide' ? 'https://disease.sh/v3/covid-19/all' : 
+      const url = countryDetail === 'worldwide' ? 
+      'https://disease.sh/v3/covid-19/all' : 
       `https://disease.sh/v3/covid-19/countries/${countryDetail}`;
+
+
 
       await fetch(url)
       .then(response => response.json())
@@ -67,7 +72,18 @@ function App() {
         //Get the data from the countries response
         setCountryInfo(data);
 
-      })
+        const maplocation = countryDetail === "worldwide" ? { lat: 34.80746, lng: -40.4796 } :
+         { lat: data.countryInfo.lat, lng: data.countryInfo.long };
+
+       setMapCenter(maplocation);
+       setMapZoom(4);
+       // setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        
+
+      //  setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        
+
+      });
     };
 
     console.log('country Info >>>', countryInfo );
@@ -108,6 +124,7 @@ function App() {
      <Map
      center={mapCenter}
      zoom={mapZoom}
+     countries={mapCountries}
      />
 
       </div>
