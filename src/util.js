@@ -6,15 +6,15 @@ import { popup } from "leaflet";
 const casesTypeColors = {
     cases: {
       hex: "#CC1034",
-      multiplier: 800,
+      multiplier: 300,
     },
     recovered: {
       hex: "#7dd71d",
-      multiplier: 1200,
+      multiplier: 300,
     },
     deaths: {
       hex: "#fb4443",
-      multiplier: 2000,
+      multiplier: 300,
     },
   };
 
@@ -34,6 +34,8 @@ export const sortData = (data) => {
 
     return sortedData;
 };
+
+export const displayStat = (stat) => stat ? `+${numeral(stat).format("0.0a")}` : "+0";
 //Draw circles on the map
 export const showDataonMap = (data, casesType='cases') => (
     data.map(country => (
@@ -47,16 +49,16 @@ export const showDataonMap = (data, casesType='cases') => (
       }
     >
     <Popup>
-        <div >
-            <div
+        <div className="info-popup">
+            <div className="flag_info"
             style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
             />
 
            
-            <div>{country.country}</div>
-            <div>Cases: {numeral(country.cases).format("0,0")}</div>
-            <div>Recovered: {numeral(country.recovered).format("0,0")}</div>
-            <div>Deaths: {numeral(country.deaths).format("0,0")}</div>
+            <div className="country-info">{country.country}</div>
+            <div className="cases-info">Cases: {numeral(country.cases).format("0,0")}</div>
+            <div className="recovered-info">Recovered: {numeral(country.recovered).format("0,0")}</div>
+            <div className="deaths-info">Deaths: {numeral(country.deaths).format("0,0")}</div>
         </div>
 
     </Popup>

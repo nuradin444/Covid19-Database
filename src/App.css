@@ -13,6 +13,14 @@ body{
   padding: 20px;
 }
 
+.app__header > h1{
+color:red;
+font-size: 2rem;
+}
+
+.app_dropdown{
+  background-color: white;
+}
 .app__header{
   display: flex;
   align-items: center;
